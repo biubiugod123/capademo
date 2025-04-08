@@ -52,6 +52,7 @@ from capa.features.common import (
     FORMAT_CAPE,
     FORMAT_SC32,
     FORMAT_SC64,
+    FORMAT_FRIDA,
     FORMAT_VMRAY,
     FORMAT_DOTNET,
     FORMAT_DRAKVUF,
@@ -79,6 +80,7 @@ BACKEND_VMRAY = "vmray"
 BACKEND_FREEZE = "freeze"
 BACKEND_BINEXPORT2 = "binexport2"
 BACKEND_IDA = "ida"
+BACKEND_FRIDA = "frida"
 
 
 class CorruptFile(ValueError):
@@ -351,6 +353,12 @@ def get_extractor(
 
         return capa.features.extractors.ida.extractor.IdaFeatureExtractor()
 
+    elif backend == BACKEND_FRIDA:
+        import capa.features.extractors.frida.extractor
+
+        report = capa.helpers.load_json_from_path(input_path)
+        return capa.features.extractors.frida.extractor.FridaExtractor.from_log(report)
+
     else:
         raise ValueError("unexpected backend: " + backend)
 
@@ -421,6 +429,12 @@ def get_file_extractors(input_file: Path, input_format: str) -> list[FeatureExtr
 
     elif input_format == FORMAT_BINEXPORT2:
         file_extractors = _get_binexport2_file_extractors(input_file)
+
+    elif input_format == FORMAT_FRIDA:
+        import capa.features.extractors.frida.extractor
+
+        report = capa.helpers.load_json_from_path(input_file)
+        file_extractors.append(capa.features.extractors.frida.extractor.FridaExtractor.from_log(report))
 
     return file_extractors
 

@@ -52,6 +52,7 @@ from capa.loader import (
     BACKEND_VIV,
     BACKEND_CAPE,
     BACKEND_BINJA,
+    BACKEND_FRIDA,
     BACKEND_VMRAY,
     BACKEND_DOTNET,
     BACKEND_FREEZE,
@@ -89,6 +90,7 @@ from capa.features.common import (
     FORMAT_CAPE,
     FORMAT_SC32,
     FORMAT_SC64,
+    FORMAT_FRIDA,
     FORMAT_VMRAY,
     FORMAT_DOTNET,
     FORMAT_FREEZE,
@@ -278,6 +280,7 @@ def install_common_args(parser, wanted=None):
             (FORMAT_FREEZE, "features previously frozen by capa"),
             (FORMAT_BINEXPORT2, "BinExport2"),
             (FORMAT_BINJA_DB, "Binary Ninja Database"),
+            (FORMAT_FRIDA, "Frida dynamic report"),
         ]
         format_help = ", ".join([f"{f[0]}: {f[1]}" for f in formats])
 
@@ -302,6 +305,7 @@ def install_common_args(parser, wanted=None):
             (BACKEND_CAPE, "CAPE"),
             (BACKEND_DRAKVUF, "DRAKVUF"),
             (BACKEND_VMRAY, "VMRay"),
+            (BACKEND_FRIDA, "Frida"),
         ]
         backend_help = ", ".join([f"{f[0]}: {f[1]}" for f in backends])
         parser.add_argument(
